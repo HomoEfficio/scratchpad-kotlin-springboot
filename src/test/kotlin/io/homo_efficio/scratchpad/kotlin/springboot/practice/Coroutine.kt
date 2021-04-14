@@ -22,16 +22,16 @@ fun main() {
     Thread.sleep(2000)
     log.debug("Stop")
 
+    log.debug("------------------------")
     val aLong = AtomicLong()
-
 
     val start1 = System.currentTimeMillis()
     log.debug("START: {}", start1)
-    for (i in 1..1_000_000L) {
+    for (i in 1..100_000L) {
         thread(start = true) {
-            aLong.getAndAdd(1)
-            if (aLong.get() % 100_000 == 0L) {
-                log.debug("aLong: {}", aLong)
+            val value = aLong.getAndAdd(1)
+            if (value % 10_000 == 0L) {
+                log.debug("aLong: {}", value)
             }
         }
     }
@@ -43,12 +43,12 @@ fun main() {
     val aLong2 = AtomicLong()
 
     val start2 = System.currentTimeMillis()
-    log.debug("START: {}", LocalDateTime.now().toString())
-    for (i in 1..1_000_000L) {
+    log.debug("START: {}", start2)
+    for (i in 1..100_000L) {
         GlobalScope.launch {
-            aLong2.getAndAdd(1)
-            if (aLong2.get() % 100_000 == 0L) {
-                log.debug("aLong2: {}", aLong2)
+            val value = aLong2.getAndAdd(1)
+            if (value % 10_000 == 0L) {
+                log.debug("aLong2: {}", value)
             }
         }
     }
