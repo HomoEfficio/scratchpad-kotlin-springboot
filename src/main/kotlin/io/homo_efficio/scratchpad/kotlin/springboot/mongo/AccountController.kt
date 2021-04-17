@@ -14,11 +14,15 @@ class AccountController(
     private val log = LoggerFactory.getLogger(javaClass)
 
 
+//    @PostMapping
+//    fun `account 저장`(@RequestBody account: Account): Mono<ResponseEntity<AccountVM>> {
+//        return accountService.save(account)
+//            .doOnNext { log.debug("saved accountVM: {}", it) }
+//            .map { ResponseEntity.ok(it) }
+//    }
     @PostMapping
-    fun `account 저장`(@RequestBody account: Account): Mono<ResponseEntity<AccountVM>> {
-        return accountService.save(account)
-            .doOnNext { log.debug("saved accountVM: {}", it) }
-            .map { ResponseEntity.ok(it) }
+    suspend fun `account 저장`(@RequestBody account: AccountReq): ResponseEntity<AccountVM> {
+        return ResponseEntity.ok(accountService.save(account))
     }
 
     @GetMapping
