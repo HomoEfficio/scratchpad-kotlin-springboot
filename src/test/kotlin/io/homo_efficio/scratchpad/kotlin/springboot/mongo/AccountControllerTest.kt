@@ -1,8 +1,9 @@
 package io.homo_efficio.scratchpad.kotlin.springboot.mongo
 
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito
 import org.mockito.Mockito.`when`
-import org.mockito.Mockito.any
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -18,10 +19,17 @@ class AccountControllerTest {
     @Autowired private lateinit var wtc: WebTestClient
 
 
+    private fun <T> any(): T {
+        Mockito.any<T>()
+        return null as T
+    }
+
     @Test
     fun `account save`() {
-        `when`(accountService.save(any()))
-            .thenReturn(AccountVM("1", "omwomw", 3000))
+        runBlocking {
+            `when`(accountService.save(any()))
+                .thenReturn(AccountVM("1", "omwomw", 3000))
+        }
 
         wtc.post().uri("/accounts")
             .contentType(MediaType.APPLICATION_JSON)
