@@ -39,6 +39,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-debug:1.4.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:3.1.0")
 }
 
 tasks.withType<KotlinCompile> {

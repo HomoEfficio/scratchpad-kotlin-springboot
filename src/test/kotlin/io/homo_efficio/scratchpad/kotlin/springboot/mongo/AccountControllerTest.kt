@@ -1,9 +1,9 @@
 package io.homo_efficio.scratchpad.kotlin.springboot.mongo
 
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito
-import org.mockito.Mockito.`when`
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -13,23 +13,19 @@ import org.springframework.test.web.reactive.server.body
 import reactor.core.publisher.Mono
 
 @WebFluxTest(AccountController::class)
-class AccountControllerTest {
+internal class AccountControllerTest {
 
     @MockBean private lateinit var accountService: AccountService
     @Autowired private lateinit var wtc: WebTestClient
 
 
-    private fun <T> any(): T {
-        Mockito.any<T>()
-        return null as T
-    }
-
     @Test
     fun `account save`() {
-        runBlocking {
-            `when`(accountService.save(any()))
-                .thenReturn(AccountVM("1", "omwomw", 3000))
+        accountService = mock {
+            onBlocking { save(any()) } doReturn
+                    AccountVM("1", "omwomw", 3000)
         }
+
 
         wtc.post().uri("/accounts")
             .contentType(MediaType.APPLICATION_JSON)
@@ -43,4 +39,5 @@ class AccountControllerTest {
             .jsonPath("$.accountName").isEqualTo("omwomw")
             .jsonPath("$.accountBalance").isEqualTo(3000)
     }
+
 }
